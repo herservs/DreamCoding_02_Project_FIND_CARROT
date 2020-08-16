@@ -1,0 +1,117 @@
+/* Global */
+/* ex) var(--color-black); */
+
+:root {
+    --border-redius: 10px;
+    --margin-top: 7px;
+}
+
+/* general */
+
+body {
+    background-color: black;
+    /* text-align: center; */
+}
+
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+/* style */
+.game {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    height: 500px;
+    background: url(../img/background.png) center/cover;
+    margin: auto;
+    border-radius: 20px;
+}
+
+/* game_header */
+.game__header {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    /* background-color: yellow; */
+    align-items: center;
+}
+
+.game__button {
+    width: 60px;
+    height: 60px;
+    border: 4px solid black;
+    font-size: 24px;
+    transition: transform 300ms ease-in;
+}
+
+.game__button:hover {
+    transform: scale(1.1);
+}
+
+.game__timer {
+    background-color: white;
+    width: 150px;
+    text-align: center;
+    font-size: 32px;
+    border: 5px solid black;
+    margin-top: 8px;
+    border-radius: 10px;
+}
+
+.game_score {
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    margin-top: 8px;
+    font-size: 46px;
+    border-radius: 50%;
+    border: 3px solid black;
+    background-color: darksalmon;
+    color: white;
+    line-height: 50px;
+}
+
+/* game_field */
+.game__field {
+    width: 100%;
+    height: 100%;
+    margin-top: 40px;
+    position: relative;
+}
+
+.pop-up {
+    display: block;
+    width: 400px;
+    height: 140px;
+    border-radius: 20px;
+    /* background-color: black; */
+    /* opacity: 0.7; */
+    /* 위와 같이 설정할 경우 버튼과 텍스트 모두 투명도가 적용된다. */
+    background-color: #00000090;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin: auto;
+    transform: translateY(-150%);
+}
+
+.pop-up--hide {
+    display: none;
+}
+
+.pop-up__refresh {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    background-color: wheat;
+    border: 2px solid black;
+    border-radius: 50%;
+}
+
+.pop-up__message {
+    display: block;
+    font-size: 38px;
+}

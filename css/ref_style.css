@@ -1,0 +1,673 @@
+/* Global */
+:root {
+    /* Color */
+    --color-white: #ffffff;
+    --color-light-white: #eeeeee;
+    --color-dark-white: #bdbdbd;
+    --color-pink: #fe918d;
+    --color-dark-pink: #ff6863;
+    --color-dark-grey: #969393;
+    --color-grey: #616161;
+    --color-light-grey: #a8a7a7;
+    --color-blue: #73aace;
+    --color-yellow: #fff7d1;
+    --color-light-yellow: #fdfbf1;
+    --color-orange: #feb546;
+    --color-black: #000000;
+  
+    /* Font size */
+    --font-large: 48px;
+    --font-medium: 28px;
+    --font-regular: 18px;
+    --font-small: 16px;
+    --font-micro: 14px;
+  
+    /* Font weight */
+    --weight-bold: 700;
+    --weight-semi-bold: 600;
+    --weight-regular: 400;
+  
+    /* Size */
+    --size-border-radius: 4px;
+  
+    /* Animation */
+    --animation-duration: 300ms;
+  }
+  
+  /* Universal */
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* basic */
+  
+  body {
+    margin: 0px; /* Body Margin 설정(기본적으로 8이 들어가 있어서 0으로 변경 */
+    font-family: "Open Sans", sans-serif; /* 구글 폰트 적용 */
+    cursor: default; /* 요소에 커서를 올리면 화살표 모양에서 커서 모양으로 바뀌는 것을 방지(화살표 유지) */
+  }
+  
+  ul {
+    padding-left: 0px; /* ul 태그의 기본 왼쪽 패팅 제거 */
+  }
+  
+  li {
+    list-style: none; /* ul 태그의 리트스 스타일 제거 (기본 점으로 표시된 것 제거) */
+  }
+  
+  button {
+    background-color: transparent; /* 부모 색에 따르도록  */
+    cursor: pointer; /* 커서 올리면 화살표 모양에서 손 모양이 나오도록 */
+    border: none; /* 새로 스타일링 하기 위해 기본 보더 삭제 */
+    outline: none; /* 새로 스타일링 하기 위해 기본 아웃라인 삭제 */
+  }
+  
+  a {
+    text-decoration: none; /* a태그의 기본 밑줄 제거 */
+    color: var(--color-light-grey); /* 텍스트 색 흰색으로 변경 */
+  }
+  
+  /* Typography */
+  h1 {
+    font-size: var(--font-large);
+    font-weight: var(--weight-bold);
+    color: var(--color-black);
+    margin: 16px 0px;
+  }
+  h2 {
+    font-size: var(--font-medium);
+    font-weight: var(--weight-semi-bold);
+    color: var(--color-black);
+    margin: 8px 0px;
+  }
+  h3 {
+    font-size: var(--font-regular);
+    font-weight: var(--weight-regular);
+    color: var(--color-black);
+    margin: 8px 0px;
+  }
+  p {
+    font-size: var(--font-regular);
+    font-weight: var(--weight-regular);
+    color: var(--color-black);
+    margin: 4px 0px;
+  }
+  
+  /* Section Common */
+  
+  .section {
+    padding: 50px;
+    text-align: center;
+    /* section 지정된 요소들이 창을 넓게 할 때 오른쪽 마진때문에 가운데 정렬이 되지 않아서 넣음*/
+    margin: auto;
+  }
+  
+  .section_container {
+    max-width: 1200px; /* 창의 최대 넓이 지정 : 1200px */
+    margin: auto;
+  }
+  
+  /* Navbar */
+  #navbar {
+    position: fixed; /* 상단에 고정되어 있어야 하기 때문에 */
+    width: 100%; /* position을 fixed로 변경하면서 넓이가 작아졌기 때문에  */
+    display: flex; /* 블럭 레벨 요소를 플렉스를 이용하여 인라인으로 표시 */
+    justify-content: space-between; /* 수평축 기준으로 엘리먼트를 정렬 */
+    /* background-color: var(--color-light-grey); navbar 배경색 지정 */
+    background-color: transparent;
+    align-items: center; /* flex-direction: row가 기본 설정이므로 align-items는 column 기준 정렬 ; */
+    color: var(--color-dark-grey);
+    padding: 16px; /* 요소가 뷰포트(윈도우 양 끝에 딱 붙어 있어서 패딩을 주어 떼어 놓음) */
+    transition: all var(--animation-duration) ease-in-out;
+    z-index: 1;
+  }
+  
+  #navbar.navbar--dark {
+    position: fixed;
+    background-color: var(--color-light-grey);
+    color: var(--color-light-white);
+    padding: 8px;
+  }
+  
+  #navbar.navbar--dark a{ 
+    color: var(--color-light-white); /* 텍스트 색 흰색으로 변경 */
+  }
+  
+  .navbarLogo--dark {    
+    margin-top: 10px;
+    /* padding-top: 10px; */
+    
+  }
+  
+  .navbar__toggle-btn {
+    position: absolute;
+    font-size: var(--font-medium);
+    right: 32px;
+    display: none;
+  }
+  
+  .navbar__logo {  
+    margin-bottom: 10px;
+    font-size: var(--font-medium); /* 로고 사이즈를 조금 크게 */
+    font-weight: var(--weight-semi-bold); /* bold 변경 */
+  }
+  
+  .navbar__menu {
+    display: flex; /* 메뉴들을 한줄로 만들기 위한 플렉스 설정*/
+  }
+  
+  .navbar__menu__item {
+    padding: 8px 12px;
+    margin: 0px 4px;
+    cursor: pointer; /* 커서를 올리면 손모양으로 바뀌어 사용자가 클릭할 수 있음을 인식하게 함 */
+    /* border를 살짝 둥글게 하기 위한 값 */  
+    border-radius: var(--size-border-radius);
+  
+    /* 
+      마우스 hover시 보더가 생기며 사이즈가 변경되는 설정 때문에 글자들이 움직이는 문제를
+      해결하기 위해 사이즈가 변경되지 않도록 호버 이전에도 보더를 주고 표시만 하지 않는다.
+      */
+    border: 1px solid transparent; 
+  }
+  
+  /* 마우스를 올렸을 때 효과 */
+  .navbar__menu__item:hover {
+    border: 1px solid var(--color-light-white); /*  */
+    background-color: var(--color-light-grey);
+    color: var(--color-light-white);
+  }
+  
+  .navbar__menu__item.navbar__menu__item--dark:hover {
+    border: 1px solid var(--color-light-white); /*  */ 
+  }
+  
+  
+  
+  /* Home */
+  #home {
+    /* home 박스에 백그라운드 이미지 지정, 반응형 세팅 */
+    background: url("imgs/background/backgroundimage3.png") center/cover no-repeat;
+    padding: 40px;
+    padding-top : 120px;
+    text-align: center; /* 모든 아이템을 중간 정렬 */
+  }
+  
+  .home__avatar {
+    width: 300px;
+    height: 250px;
+    border-radius: 50%;
+    border: 10px solid var(--color-light-white);
+  }
+  
+  .home__title,
+  .home__description {
+    color: var(--color-black);
+  }
+  
+  .home__contect {
+    font-size: var(--font-regular);
+    font-weight: var(--weight-bold);
+    margin: 24px;
+    padding: 8px 12px;
+    border: solid var(--color-light-grey);
+    border-radius: var(--size-border-radius);
+  }
+  
+  /* About */
+  
+  .about__majors {
+    display: flex; /* 3개의 major 요소를 나란히 하기 위한 flex 설정 */
+    justify-content: space-between; /* 나란히된 3개의 요소가 일정한 간격을 갖고 정렬 */
+    margin: 80px 0px;
+  }
+  
+  .major__icon {
+    width: 170px;
+    height: 170px;
+    line-height: 170px; /* 높이 만큼 지정하면 한 줄인 경우 수직으로 가운데 정렬이 가능 */
+    font-size: 70px; /* 아이콘도 결국 폰트 이므로 폰트 사이즈를 이용하여 크기 조절 */
+    margin: auto; /* 지정된 요소들이 오른쪽 마진때문에 가운데 정렬이 되지 않아서 넣음*/
+    border: 1px solid var(--color-light-grey);
+    border-radius: 50%;
+    margin-bottom: 16px;
+    color: var(--color-grey);
+  }
+  
+  /* .major__icon:hover : transform 효과가 아이콘 전체에 나타남 */
+  /* .major__icon i:hover : transform 효과가 major_icon 안에 i(동그마리 안 텍스트)에만 적용 */
+  /* .major__icon:hover i: major_icon에 마우스를 대었을 때 안에 i만 스타일이 적용*/
+  
+  .major__icon:hover i {
+    color: var(--color-blue);
+    transform: rotate(-30deg) scale(1.2);
+  }
+  
+  /* 에니메이션 효과 설정 */
+  .major__icon i {
+    transition: all var(--animation-duration) ease;
+  }
+  
+  .major__title,
+  .major__description {
+    color: var(--color-black);
+  }
+  
+  .major__description {
+    font-size: var(--font-small);
+  }
+  
+  .job {
+    display: flex;
+    align-items: center;
+  }
+  .job__description {
+    margin: 0px 16px;
+    text-align: left;
+  }
+  .job__name,
+  .job__period {
+    color: var(--color-black);
+  }
+  
+  .job__name {
+    font-size: var(--font-small);
+  }
+  
+  .job__period {
+    font-size: var(--font-micro);
+  }
+  
+  .job__logo {
+    font-size: var(--font-large);
+  }
+  
+  /* Skills */
+  
+  #skills {
+    background-color: var(--color-light-yellow);
+  }
+  
+  .skillset {
+    display: flex;
+    background-color: var(--color-light-grey);
+    color: var(--color-light-white);
+    margin: 20px 0;
+  }
+  
+  .skillset__left {
+    flex-basis: 60%;
+    background-color: var(--color-grey);
+    padding: 20px 40px;
+  }
+  
+  .skill {
+    margin-bottom: 32px;
+  }
+  
+  .skillset_title {
+    color: var(--color-white);
+  }
+  
+  .skill__bar {
+    width: 100%;
+    height: 3px;
+    background-color: var(--color-light-grey);
+  }
+  
+  /* 
+      width 값을 넣지 않는 이유는 CSS에서 적용 시 모든 skill__value에 적용되기 때문에
+      html에 style 태그를 이용하여 개별적으로 직접 적용시킨다.
+  */
+  .skill__value {
+    height: 3px;
+    background-color: var(--color-orange);
+  }
+  
+  .skill__description {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .skillset_right {
+    flex-basis: 40%;
+  }
+  
+  .tools {
+    background-color: var(--color-dark-grey);
+  }
+  
+  .tools,
+  .etc {
+    padding: 20px;
+  }
+  
+  /* Work */
+  
+  .work_categories {
+    margin: 40px;
+  }
+  
+  .category__btn {
+    border: 1px solid var(--color-dark-white);
+    border-radius: var(--size-border-radius);
+    font-size: var(--font-regular);
+    padding: 8px 48px;
+    position: relative; /*  category__count 위치의 기준을 만들기 위해 */
+  }
+  
+  /*  category__btn에 active가 있을 때와
+      category__btn이 hover일 때 적용 */
+  .category__btn.selected,
+  .category__btn:hover {
+    background-color: var(--color-light-grey);
+    color: var(--color-white);
+  }
+  
+  /*  category__btn에 active가 있을 때의 category__count 와
+      category__count가 hover일 때의 category__count에 적용 */
+  .category__btn.selected .category__count,
+  .category__btn:hover .category__count {
+    opacity: 1;
+    top: 0;
+  }
+  
+  .category__count {
+    background-color: var(--color-orange);
+    border-radius: 50%;
+    color: var(--color-white);
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    display: inline-block;
+  
+    position: absolute; /* category__btn의 글자가 가운데 정렬이 되지 않은 것 처럼 보여서 */
+    top: -20px;
+    right: 16px;
+    opacity: 0; /* 투명도 조절로 0~1 값을 가지며 0은 화면에 보이지 않도록 설정 */
+    transition: all var(--animation-duration) ease-in;
+  }
+  
+  .work__projects {
+    max-width: 1200px; /* 창의 최대 넓이 지정 : 1200px */
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap; /* 화면이 줄어들면 자동 줄바꿈 */
+    justify-content: center; /* 기본 축이 row이므로 수평축 기준으로 가운데 정렬 */
+    transition: all var(--animation-duration) ease-out;
+    opacity: 1;
+  }
+  
+  .work__projects.anim-out {
+    opacity: 0;
+    transform: scale(0.96) translateY(40px);
+  }
+  
+  .project {
+    position: relative; /* project__description이 project 박스의 왼쪽 상단에 위치 하기 위해 */
+    width: 280px;
+    height: 250px;
+    margin: 2px;
+    background-color: var(--color-light-white);
+  
+    /* 이미지 중간 정렬 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .project.invisible {
+    display: none;
+  }
+  
+  .project__img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .project__description {
+    position: absolute;
+    top: 10px; /* 애니메이션 효과로 호버 시 보여줄 내용이 아래에서 위로 올라오도록 */
+    left: 0;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+  
+    display: flex;
+    flex-direction: column; /* column(수직) 축을 기준으로 요소를 한줄로 세움 */
+    justify-content: center; /* column(수직) 축이 기준으로 가운데 정렬*/
+  
+    /* 애니메이션 효과 */
+    opacity: 0;
+    transition: all var(--animation-duration) ease-in;
+  }
+  
+  /* .project__description:hover {
+    top: 0;
+    opacity: 0.8;
+  } */
+  
+  /* 위 주석과 동일 */
+  .project:hover .project__description {
+    opacity: 0.8;
+    top: 0;
+  }
+  
+  .project__description h3 {
+    color: var(--color-orange);
+  }
+  
+  .project__description h3:after {
+    content: "";
+    display: block;
+    position: relative;
+    left: 50%;
+    width: 50px;
+    height: 2px;
+    /* margin-left: -12px; */
+    transform: translateX(-50%);
+    margin-top: 8px;
+    background-color: var(--color-dark-white);
+  }
+  
+  /* Testimonials */
+  #testimonials {
+    background-color: var(--color-light-white);
+  }
+  
+  .testimonials {
+    max-width: 1200px; /* 창의 최대 넓이 지정 : 1200px */
+    /* margin: 40px; */
+    margin: auto;
+  }
+  
+  .testimonial {
+    display: flex;
+    margin: 32px 0;
+  
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .testimonial__avartar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+  
+  .testimonial__avartar:nth-child(odd) {
+    margin-right: 40px;
+  }
+  
+  .testimonial__avartar:nth-child(even) {
+    margin-left: 40px;
+  }
+  
+  .testimonial__speech-bubble {
+    max-width: 50%;
+    background-color: var(--color-white);
+    padding: 18px;
+    border-radius: var(--size-border-radius);
+  }
+  
+  .testimonial__speech-bubble p {
+    color: var(--color-dark-grey);
+  }
+  
+  .testimonial__speech-bubble a {
+    color: var(--color-blue);
+  }
+  
+  /* Contect */
+  
+  #contect {
+    background-color: var(--color-light-grey); /* navbar 배경색 지정*/
+  }
+  
+  .contect__title,
+  .contect__email,
+  .contect__rights {
+    color: var(--color-white);
+  }
+  
+  .contect__title {
+    margin: 32px 0;
+  }
+  
+  .contect__links {
+    font-size: var(--font-large);
+    margin: 24px 0;
+  }
+  
+  /* contect__links 안에 있는 i 태그에 마우스가 가져다대면 */
+  .contect__links i:hover {
+    color: var(--color-blue);
+    transform: scale(1.1);
+    transition: all var(--animation-duration) ease-in;
+  }
+  
+  .arrow-up {
+    position: fixed;
+    bottom: 50px;  
+    right: 50px;
+    font-size: 50px;
+    color: var(--color-grey);
+    background-color: var(--color-yellow);
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    /* dispaly를 none으로 하면 애니메이션 주기가 까다롭다 */
+    /* display: none; */ 
+    opacity: 0;
+    transition: opacity var(--animation-duration) ease-in;
+    pointer-events: none; /* opacity 방식은 버튼이 클릭되는 문제가 발생하여 클릭할 수 없도록 처리  */
+  }
+  
+  .arrow-up.visible {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  /* For below 768px screen width : 반응형 */
+  @media screen and (max-width: 768px) {
+  
+    :root {
+      /* Font size */
+    --font-large: 30px;
+    --font-medium: 18px;
+    --font-regular: 16px;
+    --font-small: 14x;
+    --font-micro: 12px;
+    }
+  
+    .navbar__toggle-btn {        
+      display: block;
+    }
+    
+    .navbar--dark .navbar__toggle-btn {
+      margin-top: 10px;    
+    }
+  
+    .section { 
+      padding: 16px;
+      padding-top: 45px;
+    }
+    
+    #navbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    #navbar.open {
+      flex-direction: column;
+      align-items: flex-start;
+      background-color: var(--color-light-grey);
+      color: var(--color-light-white);    
+    }
+  
+    #navbar.open a {
+      color: var(--color-light-white); /* 텍스트 색 흰색으로 변경 */
+    }
+    .navbar__menu {
+      flex-direction: column;
+      text-align: center;
+      width: 100%;
+      display: none;
+    }
+    .navbar__menu.open {
+      background-color: var(--color-light-grey);
+      display: block;    
+      color: var(--color-light-white);
+    }
+    .about__majors {
+      flex-direction: column;
+      margin-top: 30px;
+      margin-bottom: 0px;
+    }
+    .major {
+      margin: 30px;
+    }
+    .skillset {
+      flex-direction: column;
+    }
+  
+    .category__btn {
+      margin: 4px 0;
+      width: 100%;
+    }
+  
+    .project {
+      flex-grow: 1; /* 화면이 작아졌을 때 여백을 알아서 채워주는 기능 */
+    }
+  
+    .testimonial {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .testimonial__avartar {
+      margin: 0;  
+      width: 120px;
+      height: 120px;
+      
+    }
+    .testimonial__speech-bubble {
+      order: 1;
+    }
+    .testimonial__avartar:nth-child(odd),
+    .testimonial__avartar:nth-child(even) {
+      margin: 0;
+      margin-bottom: 8px;
+    }
+  
+    .arrow-up {
+      width: 50px;
+      height: 50px;
+      font-size: 30px;
+      line-height: 50px;
+      right: 16px;
+      bottom: 16px;
+    }
+    
+  }
+  
