@@ -44,12 +44,18 @@ button {
     height: 60px;
     border: 4px solid black;
     font-size: 24px;
-    transition: transform 300ms ease-in;
+    transition: transform 300ms ease-in;    
+}
+
+.game__button--hide {
+    visibility: hidden;
 }
 
 .game__button:hover {
     transform: scale(1.1);
 }
+
+
 
 .game__timer {
     visibility: hidden;
