@@ -1,9 +1,9 @@
 'use strict';
 
-const CARROT_SIZE = 80;
-const CARROT_COUNT = 5;
-const BUG_COUNT = 5;
-const GAME_DURATION_SEC = 10;
+const CARROT_SIZE = 90;
+const CARROT_COUNT = 10;
+const BUG_COUNT = 10;
+const GAME_DURATION_SEC = 15;
 
 const field = document.querySelector('.game__field');
 const fieldRect = field.getBoundingClientRect();
@@ -13,43 +13,87 @@ const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
 
 const popUp = document.querySelector('.pop-up');
+const pupUpRefresh = document.querySelector('.pop-up__refresh');
 const popUpMsg = document.querySelector('.pop-up__message');
+
+const carrotSound = new Audio('../sound/carrot_pull.mp3');
+const alertSound = new Audio('../sound/alert.wav');
+const bugSound = new Audio('../sound/bug_pull.mp3');
+const winSound = new Audio('../sound/game_win.mp3');
+const bgSound = new Audio('../sound/bg.mp3');
+
 
 let started = false;
 let score = 0;
 let timer = undefined;
 
 
-window.addEventListener('load', ()=> {   
-    console.log('load');
-});
+field.addEventListener('click', onFiledClick);
 
 gameBtn.addEventListener('click', () => {
 
     if (started) {
+        playSound(alertSound);        
         stopGame();
     } else {
         startGame();
     }
-    started = !started;
+    
 });
 
 function startGame() {
+    started = true;
     initGame();
     showStopButton();
     showTimerAndScore();
-    startGameTimer();
+    startGameTimer();        
+    playSound(bgSound);
+    
 }
 
+function stopGame() {
+    started = false;
+    stopGameTimer(); 
+    hideGameButton();   
+    showPopUpWithText('REPLAY?');
+    stopSound(bgSound);
+    playSound(alertSound);        
+}
+
+function finishGame(win) {
+    started = false;
+    hideGameButton();
+    if(win) {
+        playSound(winSound);        
+    }else {
+        playSound(bugSound);
+    }
+    stopSound(bgSound);
+    stopGameTimer(); 
+    showPopUpWithText(win ? 'YOU WON!' : 'YOU LOST!');
+}
+
+
+
+
+pupUpRefresh.addEventListener('click', () => {
+    startGame();
+    hiedPopUp();    
+});
+
+
 function showStopButton() {
-    const icon = document.querySelector('.fa-play');
+    const icon = document.querySelector('.fas');
     icon.classList.add('fa-stop');
     icon.classList.remove('fa-play');
+    gameBtn.style.visibility = 'visible';
 }
 
 function showTimerAndScore() {
     gameTimer.style.visibility = 'visible';
+    gameTimer.innerText = '0:0';
     gameScore.style.visibility = 'visible';
+    gameScore.innerText = CARROT_COUNT;
 }
 
 function startGameTimer() {
@@ -61,6 +105,7 @@ function startGameTimer() {
                
         if(remainingTimeSec <= 0) {
             clearInterval(timer);
+            finishGame(CARROT_COUNT === score);
             return;
         }
 
@@ -75,11 +120,7 @@ function updateTimerText(time) {
     gameTimer.innerText = `${minutes}:${seconds}`;
 }
 
-function stopGame() {
-    stopGameTimer(); 
-    hideGameButton();   
-    showPopUpWithText('REPLAY?');
-}
+
 
 function stopGameTimer() {
     clearInterval(timer);
@@ -94,18 +135,65 @@ function showPopUpWithText(message) {
     popUpMsg.innerText = message;
 }
 
+function hiedPopUp() {
+    popUp.classList.add('pop-up--hide');
+}
+
 
 
 
 // 3. 초기화 함수 : 벌레와 당근 생성 & 필드에 추가
 function initGame() {
 
-
+    score = 0;
     field.innerHTML = '';
     addItem('carrot', CARROT_COUNT, '../img/carrot.png');
     addItem('bug', BUG_COUNT, '../img/bug.png');
 
+
 }
+
+function onFiledClick(event) {
+    const target = event.target;
+    const targetClassName = target.className;
+
+    if(!started) {
+        return;
+    }        
+
+    // if(targetClassName === 'carrot') {        
+    //     field.removeChild(target);
+    // }
+
+    if(target.matches('.carrot')) {
+        
+        target.remove();
+        score++;
+        updateScoreBoard();
+        playSound(carrotSound);
+        if(score === CARROT_COUNT) {
+            finishGame(true);
+        }
+    }else if (target.matches('.bug')) {        
+        finishGame(false);
+    }
+}
+
+function updateScoreBoard() {
+    gameScore.innerText = CARROT_COUNT - score;
+}
+
+function playSound(sound) {
+    sound.currentTime = 0;
+    sound.play();
+}
+
+function stopSound(sound) {
+    sound.pause();
+}
+
+
+
 
 // 4. 벌레와 당근 생성 후 추가해주는 함수
 function addItem(className, count, imgPath) {
@@ -126,8 +214,10 @@ function addItem(className, count, imgPath) {
     // const x2 = fieldRect.width - img.width;
     // const y2 = fieldRect.height - img.height;
 
-    const x2 = fieldRect.width - CARROT_SIZE;
-    const y2 = fieldRect.height - CARROT_SIZE;
+    const fx = fieldRect.width;
+    const fy = fieldRect.height;
+    const x2 = fx - CARROT_SIZE;
+    const y2 = fy - CARROT_SIZE;
     
 
 
@@ -142,6 +232,8 @@ function addItem(className, count, imgPath) {
         const x = randomNumber(x1, x2);
         const y = randomNumber(y1, y2);
 
+        // console.log(`x(${x}, y(${y} / x1(${x1}, y1(${y1} / x2(${x2}, y2(${y2}) / fx(${fx}, fy(${fy}))`)
+
         item.style.left = `${x}px`;
         item.style.top = `${y}px`;
 
@@ -151,8 +243,10 @@ function addItem(className, count, imgPath) {
 }
 
 function randomNumber(min, max) {
-    return Math.random() * (max - min) + min;
-}
+    const random = Math.random();
+    // console.log(`random(${random}) * (${max} - ${min}) + ${min}`)
+    return random * (max - min) + min;
+}                         
 
 /**
  * DOM 트리에 등록되기까지 시간이 소요되는 작업

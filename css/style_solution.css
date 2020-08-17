@@ -27,6 +27,7 @@ button {
     height: 500px;
     background: url(../img/background.png) center/cover;
     margin: auto;
+    margin-top: 100px;
     border-radius: 20px;
 }
 
@@ -47,10 +48,6 @@ button {
     transition: transform 300ms ease-in;    
 }
 
-.game__button--hide {
-    visibility: hidden;
-}
-
 .game__button:hover {
     transform: scale(1.1);
 }
@@ -66,6 +63,8 @@ button {
     border: 5px solid black;
     margin-top: 8px;
     border-radius: 10px;
+    user-select: none;
+    cursor: auto;
 }
 
 .game__score {
@@ -74,12 +73,14 @@ button {
     width: 50px;
     height: 50px;
     margin-top: 8px;
-    font-size: 46px;
+    font-size: 38px;
     border-radius: 50%;
     border: 3px solid black;
     background-color: darksalmon;
     color: white;
     line-height: 50px;
+    user-select: none;
+    cursor: auto;
 }
 
 /* game_field */
@@ -88,6 +89,17 @@ button {
     height: 100%;
     margin-top: 40px;
     position: relative;
+}
+
+.carrot,
+.bug {
+    transition: transform 100ms ease-in;
+    cursor: pointer;
+}
+
+.carrot:hover,
+.bug:hover {
+    transform: scale(1.1);
 }
 
 .pop-up {
