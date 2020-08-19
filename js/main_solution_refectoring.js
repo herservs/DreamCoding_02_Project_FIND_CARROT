@@ -1,7 +1,7 @@
 'use strict';
 
 import PopUp from '../js/popup.js';
-import field from '../js/field.js';
+import Field from '../js/field.js';
 
 const CARROT_SIZE = 150;
 const CARROT_COUNT = 10;
@@ -143,8 +143,8 @@ function hideGameButton() {
 function initGame() {
     score = 0;
     field.innerHTML = '';
-    // addItem('carrot', CARROT_COUNT, '../img/carrot.png');
-    addItem('carrot', CARROT_COUNT, '../img/etc/hongs_resize_03.png');
+    addItem('carrot', CARROT_COUNT, '../img/carrot.png');
+    // addItem('carrot', CARROT_COUNT, '../img/etc/hongs_resize_03.png');
     addItem('bug', BUG_COUNT, '../img/bug.png');
 }
 
