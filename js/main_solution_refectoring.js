@@ -2,6 +2,7 @@
 
 import PopUp from '../js/popup.js';
 import Field from '../js/field.js';
+import * as sound from '../js/sound.js';
 
 const CARROT_SIZE = 150;
 const CARROT_COUNT = 10;
@@ -14,11 +15,7 @@ const gameScore = document.querySelector('.game__score');
 
 
 
-const carrotSound = new Audio('../sound/carrot_pull.mp3');
-const alertSound = new Audio('../sound/alert.wav');
-const bugSound = new Audio('../sound/bug_pull.mp3');
-const winSound = new Audio('../sound/game_win.mp3');
-const bgSound = new Audio('../sound/bg.mp3');
+
 
 
 let started = false;
@@ -31,6 +28,26 @@ gameFinishBanner.setClickListener(() => {
 });
 
 
+
+// function onItemClick(item) {
+
+//     if (!started) {
+//         return;
+//     }
+
+//     if (item === 'carrot') {
+//         score++;
+//         updateScoreBoard();
+
+//         if (score === CARROT_COUNT) {
+//             finishGame(true);
+//         }
+
+//     } else if (item === 'bug') {
+//         finishGame(false);
+//     }
+
+// }
 
 function onItemClick(item) {
 
@@ -46,7 +63,7 @@ function onItemClick(item) {
             finishGame(true);
         }
 
-    } else if (target.matches('.bug')) {
+    } else if (item === 'bug') {
         finishGame(false);
     }
 
@@ -59,7 +76,7 @@ gameField.setClickListener(onItemClick);
 gameBtn.addEventListener('click', () => {
 
     if (started) {
-        playSound(alertSound);
+        sound.playAlert();
         stopGame();
     } else {
         startGame();
@@ -73,7 +90,7 @@ function startGame() {
     showStopButton();
     showTimerAndScore();
     startGameTimer();
-    playSound(bgSound);
+    sound.playBackground();
 
 }
 
@@ -82,19 +99,19 @@ function stopGame() {
     stopGameTimer();
     hideGameButton();
     gameFinishBanner.showUpWithText('REPLAY?');
-    stopSound(bgSound);
-    playSound(alertSound);
+    sound.stopBackground();
+    sound.playAlert();
 }
 
 function finishGame(win) {
     started = false;
     hideGameButton();
     if (win) {
-        playSound(winSound);
+        sound.playWin();
     } else {
-        playSound(bugSound);
+        sound.playBug();
     }
-    stopSound(bgSound);
+    sound.stopBackground();
     stopGameTimer();
     gameFinishBanner.showUpWithText(win ? 'YOU WON!' : 'YOU LOST!');
 }
@@ -153,20 +170,9 @@ function updateScoreBoard() {
     gameScore.innerText = CARROT_COUNT - score;
 }
 
-function playSound(sound) {
-    sound.currentTime = 0;
-    sound.play();
-}
-
-function stopSound(sound) {
-    sound.pause();
-}
 
 
-function randomNumber(min, max) {
-    const random = Math.random();
-    return random * (max - min) + min;
-}
+
 
 /**
  * DOM 트리에 등록되기까지 시간이 소요되는 작업

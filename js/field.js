@@ -1,6 +1,7 @@
 'use strict';
 
-const carrotSound = new Audio('../sound/carrot_pull.mp3');
+import * as sound from '../js/sound.js';
+
 const CARROT_SIZE = 150;
 
 
@@ -17,6 +18,18 @@ export default class Field {
 
         this.field = document.querySelector('.game__field');
         this.fieldRect = this.field.getBoundingClientRect();
+
+        /**
+         * this binding case
+         *  case1 : this.onClick = this.Onclick.bind(this);
+         *  case2 : this.field.addEventListener('click', (event) => this.onClick(event));
+         *  case3 : 전달할 멤버 함수를 변수로 하여 함수를 가리키도록 함(함수 포인터?)
+         */
+
+        // this.onClick = this.onClick.bind(this);
+        // this.field.addEventListener('click', this.onClick);
+        // this.field.addEventListener('click', (event) => this.onClick(event));
+
         this.field.addEventListener('click', this.onClick);
     }
 
@@ -70,14 +83,32 @@ export default class Field {
      *      가) 당근 이미지 제거
      *      나) 당근 사운드 재생
      */
-    onClick(event) {
+    // onClick(event) {
+    //     const target = event.target;
+
+    //     if (target.matches('.carrot')) {
+
+    //         target.remove();
+    //         sound.playCarrot();
+
+    //         this.onItemClick && this.onItemClick('carrot');
+
+    //     } else if (target.matches('.bug')) {
+    //         this.onItemClick && this.onItemClick('bug');
+    //     }
+    // }
+
+    // 바인딩 세 번째 방법
+    onClick = (event) => {
         const target = event.target;
 
         if (target.matches('.carrot')) {
 
             target.remove();
-            playSound(carrotSound);
+            sound.playCarrot();
+
             this.onItemClick && this.onItemClick('carrot');
+
         } else if (target.matches('.bug')) {
             this.onItemClick && this.onItemClick('bug');
         }
