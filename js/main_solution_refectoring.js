@@ -8,9 +8,6 @@ const CARROT_COUNT = 10;
 const BUG_COUNT = 10;
 const GAME_DURATION_SEC = 15;
 
-const field = document.querySelector('.game__field');
-const fieldRect = field.getBoundingClientRect();
-
 const gameBtn = document.querySelector('.game__button');
 const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
@@ -29,17 +26,35 @@ let score = 0;
 let timer = undefined;
 
 const gameFinishBanner = new PopUp();
-
 gameFinishBanner.setClickListener(() => {
     startGame();
 });
 
 
-document.addEventListener('click', (e) => {
-    console.log(e);
-});
 
-field.addEventListener('click', onFiledClick);
+function onItemClick(item) {
+
+    if (!started) {
+        return;
+    }
+
+    if (item === 'carrot') {
+        score++;
+        updateScoreBoard();
+
+        if (score === CARROT_COUNT) {
+            finishGame(true);
+        }
+
+    } else if (target.matches('.bug')) {
+        finishGame(false);
+    }
+
+}
+
+
+const gameField = new Field(CARROT_COUNT, BUG_COUNT);
+gameField.setClickListener(onItemClick);
 
 gameBtn.addEventListener('click', () => {
 
@@ -54,7 +69,7 @@ gameBtn.addEventListener('click', () => {
 
 function startGame() {
     started = true;
-    initGame();
+    gameField.init();
     showStopButton();
     showTimerAndScore();
     startGameTimer();
@@ -134,46 +149,6 @@ function hideGameButton() {
 }
 
 
-
-
-
-
-
-// 3. 초기화 함수 : 벌레와 당근 생성 & 필드에 추가
-function initGame() {
-    score = 0;
-    field.innerHTML = '';
-    addItem('carrot', CARROT_COUNT, '../img/carrot.png');
-    // addItem('carrot', CARROT_COUNT, '../img/etc/hongs_resize_03.png');
-    addItem('bug', BUG_COUNT, '../img/bug.png');
-}
-
-function onFiledClick(event) {
-    const target = event.target;
-    const targetClassName = target.className;
-
-    if (!started) {
-        return;
-    }
-
-    // if(targetClassName === 'carrot') {        
-    //     field.removeChild(target);
-    // }
-
-    if (target.matches('.carrot')) {
-
-        target.remove();
-        score++;
-        updateScoreBoard();
-        playSound(carrotSound);
-        if (score === CARROT_COUNT) {
-            finishGame(true);
-        }
-    } else if (target.matches('.bug')) {
-        finishGame(false);
-    }
-}
-
 function updateScoreBoard() {
     gameScore.innerText = CARROT_COUNT - score;
 }
@@ -187,33 +162,6 @@ function stopSound(sound) {
     sound.pause();
 }
 
-
-function addItem(className, count, imgPath) {
-
-    // 필드 요소의 좌표 기준 정하기 (game__field -> absolute, game -> relative)
-    const x1 = 0;
-    const y1 = 0;
-    const x2 = fieldRect.width - CARROT_SIZE;
-    const y2 = fieldRect.height - CARROT_SIZE;
-
-    // 4-2. 벌레와 당근 생성 추가
-    for (let i = 0; i < count; i++) {
-
-        const item = document.createElement('img');
-        item.setAttribute('class', className);
-        item.setAttribute('src', imgPath);
-        item.style.position = 'absolute';
-
-        const x = randomNumber(x1, x2);
-        const y = randomNumber(y1, y2);
-
-        item.style.left = `${x}px`;
-        item.style.top = `${y}px`;
-
-        field.appendChild(item);
-    }
-
-}
 
 function randomNumber(min, max) {
     const random = Math.random();
