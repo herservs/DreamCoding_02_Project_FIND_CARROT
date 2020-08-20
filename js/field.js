@@ -4,8 +4,12 @@ import * as sound from '../js/sound.js';
 
 const CARROT_SIZE = 150;
 
+export const ItemType = Object.freeze({
+    carrot: 'carrot',
+    bug: 'bug',
+});
 
-export default class Field {
+export class Field {
 
     /**
      * 1. 목적 : 
@@ -40,8 +44,8 @@ export default class Field {
      */
     init() {
         this.field.innerHTML = '';
-        this._addItem('carrot', this.carrotCount, '../img/carrot.png');
-        this._addItem('bug', this.bugCount, '../img/bug.png');
+        this._addItem(ItemType.carrot, this.carrotCount, '../img/carrot.png');
+        this._addItem(ItemType.bug, this.bugCount, '../img/bug.png');
     }
 
     /**
@@ -107,10 +111,10 @@ export default class Field {
             target.remove();
             sound.playCarrot();
 
-            this.onItemClick && this.onItemClick('carrot');
+            this.onItemClick && this.onItemClick(ItemType.carrot);
 
         } else if (target.matches('.bug')) {
-            this.onItemClick && this.onItemClick('bug');
+            this.onItemClick && this.onItemClick(ItemType.bug);
         }
     }
     /**
